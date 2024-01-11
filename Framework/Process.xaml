@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:sc="clr-namespace:System.ComponentModel;assembly=System.ComponentModel.TypeConverter" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:l="clr-namespace:LIB_O365_Sharepoint_00_00;assembly=LIB_O365_Sharepoint_00.00" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:sc="clr-namespace:System.ComponentModel;assembly=System.ComponentModel.TypeConverter" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(ui:QueueItem)" />
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
@@ -7,10 +7,10 @@
   <VisualBasic.Settings>
     <x:Null />
   </VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1514,2951</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1514,3747</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
-    <scg:List x:TypeArguments="x:String" Capacity="50">
+    <scg:List x:TypeArguments="x:String" Capacity="100">
       <x:String>Microsoft.VisualBasic</x:String>
       <x:String>Microsoft.VisualBasic.Activities</x:String>
       <x:String>System</x:String>
@@ -40,6 +40,28 @@
       <x:String>GlobalConstantsNamespace</x:String>
       <x:String>System.Reflection</x:String>
       <x:String>System.ComponentModel</x:String>
+      <x:String>LIB_O365_Sharepoint_00_00</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Enums</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Activities.Mail</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Models</x:String>
+      <x:String>UiPath.Shared.Services.Graph.Mail.Models</x:String>
+      <x:String>System.Activities.Runtime.Collections</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Activities</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Shared.Activities.ConnectionService.Contracts</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Activities.Mail.Enums</x:String>
+      <x:String>UiPath.Shared.Activities.Utils</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Activities.Mail.Filters</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Activities.Contracts</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Mail.Enums</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Activities.Filters</x:String>
+      <x:String>Microsoft.Graph</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Activities.Files.Contracts</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Activities.Files</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Activities.SharePoint</x:String>
+      <x:String>UiPath.Shared.Activities.Business</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -94,12 +116,28 @@
       <AssemblyReference>System.CodeDom</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic.Forms</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic.Core</AssemblyReference>
+      <AssemblyReference>LIB_O365_Sharepoint_00.00</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
+      <AssemblyReference>UiPath.MicrosoftOffice365</AssemblyReference>
+      <AssemblyReference>UiPath.MicrosoftOffice365.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Web.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Testing.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.Graph</AssemblyReference>
+      <AssemblyReference>Microsoft.Graph.Core</AssemblyReference>
+      <AssemblyReference>System.Private.Xml</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="685,2886" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="685,3682" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="strEmployeeID" />
       <Variable x:TypeArguments="x:Boolean" Default="False" Name="bool_OTPFound" />
+      <Variable x:TypeArguments="x:String" Name="strLocation" />
+      <Variable x:TypeArguments="x:String" Name="strHiringManagerName" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -108,7 +146,7 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <ui:LogMessage DisplayName="Log Message Process Start" sap:VirtualizedContainerService.HintSize="623,141" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Started process to check for approval status in workday&quot;]" />
-    <Assign sap:VirtualizedContainerService.HintSize="623,82" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <Assign sap:VirtualizedContainerService.HintSize="623,81" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="x:Boolean">[out_PostponeItem]</OutArgument>
       </Assign.To>
@@ -116,26 +154,29 @@
         <InArgument x:TypeArguments="x:Boolean">False</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="623,303" sap2010:WorkflowViewState.IdRef="CommentOut_1">
-      <ui:CommentOut.Body>
-        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="450,224" sap2010:WorkflowViewState.IdRef="Sequence_7">
-          <sap:WorkflowViewStateService.ViewState>
-            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-            </scg:Dictionary>
-          </sap:WorkflowViewStateService.ViewState>
-          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Workday\DispositioningApprovalStatusCheck_Workday.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="388,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Workday\DispositioningApprovalStatusCheck_Workday.xaml">
-            <ui:InvokeWorkflowFile.Arguments>
-              <InArgument x:TypeArguments="x:String" x:Key="in_URL">[in_Config("WorkdayURL").ToString]</InArgument>
-              <InArgument x:TypeArguments="x:String" x:Key="in_EmployeeName">[in_TransactionItem.SpecificContent("Employee Name").ToString]</InArgument>
-              <OutArgument x:TypeArguments="x:String" x:Key="out_EmployeeID">[strEmployeeID]</OutArgument>
-              <OutArgument x:TypeArguments="x:Boolean" x:Key="out_OTPFound">[bool_OTPFound]</OutArgument>
-            </ui:InvokeWorkflowFile.Arguments>
-          </ui:InvokeWorkflowFile>
-        </Sequence>
-      </ui:CommentOut.Body>
-    </ui:CommentOut>
-    <ui:IfElseIf DisplayName="Else If" sap:VirtualizedContainerService.HintSize="623,2057" sap2010:WorkflowViewState.IdRef="IfElseIf_1">
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Workday\DispositioningApprovalStatusCheck_Workday.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="623,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Workday\DispositioningApprovalStatusCheck_Workday.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_URL">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;WorkdayURL&quot;).ToString" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_EmployeeName">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_TransactionItem.SpecificContent(&quot;Employee Name&quot;).ToString" />
+        </InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_EmployeeID">
+          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="strEmployeeID" />
+        </OutArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_OTPFound">
+          <VisualBasicReference x:TypeArguments="x:Boolean" ExpressionText="bool_OTPFound" />
+        </OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_Location">
+          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="strLocation" />
+        </OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ManagerName">
+          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="strHiringManagerName" />
+        </OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:IfElseIf DisplayName="Else If" sap:VirtualizedContainerService.HintSize="623,3044" sap2010:WorkflowViewState.IdRef="IfElseIf_1">
       <ui:IfElseIf.ConditionBlocks>
         <sc:BindingList x:TypeArguments="ui:IfElseIfBlock" AllowEdit="True" AllowNew="True" AllowRemove="True" RaiseListChangedEvents="True">
           <ui:IfElseIfBlock BlockType="If" Condition="[strEmployeeID is Nothing AND bool_OTPFound=True]">
@@ -152,7 +193,7 @@
           </ui:IfElseIfBlock>
           <ui:IfElseIfBlock BlockType="ElseIf" Condition="[strEmployeeID is Nothing AND bool_OTPFound=False]">
             <ui:IfElseIfBlock.Then>
-              <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="572,1105" sap2010:WorkflowViewState.IdRef="Sequence_3">
+              <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="572,876" sap2010:WorkflowViewState.IdRef="Sequence_3">
                 <Sequence.Variables>
                   <Variable x:TypeArguments="x:String" Name="num_DateDiff" />
                 </Sequence.Variables>
@@ -162,7 +203,7 @@
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
                 <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="510,141" sap2010:WorkflowViewState.IdRef="LogMessage_3" Message="[&quot;Not approved. Check and defer&quot;]" />
-                <If Condition="[DateDiff(DateInterval.Day,Convert.ToDateTime(in_TransactionItem.SpecificContent(&quot;Creation Date&quot;).ToString),today) &lt;= Convert.ToDouble(in_Config(&quot;DispositionApprovalWaitDays&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="510,813" sap2010:WorkflowViewState.IdRef="If_1">
+                <If Condition="[DateDiff(DateInterval.Day,Convert.ToDateTime(in_TransactionItem.SpecificContent(&quot;Creation Date&quot;).ToString),today) &lt;= Convert.ToDouble(in_Config(&quot;DispositionApprovalWaitDays&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="510,584" sap2010:WorkflowViewState.IdRef="If_1">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -203,13 +244,52 @@
           </ui:IfElseIfBlock>
           <ui:IfElseIfBlock BlockType="ElseIf" Condition="[strEmployeeID IsNot Nothing AND bool_OTPFound=True]">
             <ui:IfElseIfBlock.Then>
-              <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="450,252" sap2010:WorkflowViewState.IdRef="Sequence_4">
+              <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="450,1471" sap2010:WorkflowViewState.IdRef="Sequence_4">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="388,141" sap2010:WorkflowViewState.IdRef="LogMessage_4" Message="[&quot;Approved. Update EMP ID and Send Welcome Email&quot;]" />
+                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="388,141" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Updating employee ID in sharepoint list&quot;]" />
+                <l:Update_List_Item DisplayName="Update List Item" sap:VirtualizedContainerService.HintSize="388,447" sap2010:WorkflowViewState.IdRef="Update_List_Item_1" in_ColumnDisplayName="[in_Config(&quot;EmpID_ColumnDisplayName&quot;).ToString]" in_FilterCondition="[&quot;(fields/EmployeeName eq '&quot;+in_TransactionItem.SpecificContent(&quot;Employee Name&quot;).ToString+&quot;') and (fields/JRNumber eq '&quot;+in_TransactionItem.SpecificContent(&quot;JR Number&quot;).ToString+&quot;')&quot;]" in_ValueToBeUpdated="[strEmployeeID]" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAssetName="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strSharepointListName="[in_Config(&quot;NHC_SharepointListName&quot;).ToString]" in_strSharepointURL="[in_Config(&quot;NHC_SharepointURL&quot;).ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]" />
+                <l:Update_List_Item DisplayName="Update List Item" sap:VirtualizedContainerService.HintSize="388,447" sap2010:WorkflowViewState.IdRef="Update_List_Item_2" in_ColumnDisplayName="[in_Config(&quot;Status_ColumnDisplayName&quot;).ToString]" in_FilterCondition="[&quot;(fields/EmployeeName eq '&quot;+in_TransactionItem.SpecificContent(&quot;Employee Name&quot;).ToString+&quot;') and (fields/JRNumber eq '&quot;+in_TransactionItem.SpecificContent(&quot;JR Number&quot;).ToString+&quot;')&quot;]" in_ValueToBeUpdated="Disposition Approved" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAssetName="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strSharepointListName="[in_Config(&quot;NHC_SharepointListName&quot;).ToString]" in_strSharepointURL="[in_Config(&quot;NHC_SharepointURL&quot;).ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]" />
+                <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+                  <ui:CommentOut.Body>
+                    <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="450,224" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Email\WelcomeEmail.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="388,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Email\WelcomeEmail.xaml">
+                        <ui:InvokeWorkflowFile.Arguments>
+                          <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_HiringManagerName">[strHiringManagerName]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_EmployeeName">[in_TransactionItem.SpecificContent("Employee Name").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_HiringManagerEmail">[in_TransactionItem.SpecificContent("Supervisor Email").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_DOH">[in_TransactionItem.SpecificContent("Date of Hire").ToString]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_Location">[strLocation]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_NewHireOrientationDate">12/12/23</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_EmployeeEmail">[in_TransactionItem.SpecificContent("Employee Email").ToString]</InArgument>
+                        </ui:InvokeWorkflowFile.Arguments>
+                      </ui:InvokeWorkflowFile>
+                    </Sequence>
+                  </ui:CommentOut.Body>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </ui:CommentOut>
+                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="AdddToQueue.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="388,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="AdddToQueue.xaml">
+                  <ui:InvokeWorkflowFile.Arguments>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_OrchestratorFolderPath">[in_Config("OrchestratorQueueFolder").ToString]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_QueueName">[in_Config("NewHirePaperworkQueueName").ToString]</InArgument>
+                    <InArgument x:TypeArguments="ui:QueueItem" x:Key="in_QueueData">[in_TransactionItem]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_EmpID">[strEmployeeID]</InArgument>
+                  </ui:InvokeWorkflowFile.Arguments>
+                </ui:InvokeWorkflowFile>
               </Sequence>
             </ui:IfElseIfBlock.Then>
           </ui:IfElseIfBlock>
