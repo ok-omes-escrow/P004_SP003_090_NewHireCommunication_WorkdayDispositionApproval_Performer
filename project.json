@@ -3,7 +3,7 @@
   "description": "Robotic Enterprise Framework",
   "main": "Main.xaml",
   "dependencies": {
-    "Holiday.Calendar": "[0.0.1-alpha.3]",
+    "HolidayCalendar_1.0": "[0.0.1-alpha.9]",
     "LIB_O365_Sharepoint_00.00": "[1.0.6]",
     "LIB_Workday_2023": "[1.0.1-alpha.14]",
     "O365MailActivities_00.00": "[1.0.1]",
