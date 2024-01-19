@@ -118,7 +118,7 @@
         <InArgument x:TypeArguments="x:String" x:Key="Supervisor Email">[in_QueueData.SpecificContent("Supervisor Email").ToString]</InArgument>
         <InArgument x:TypeArguments="x:String" x:Key="Annual Salary">[in_QueueData.SpecificContent("Annual Salary").ToString]</InArgument>
         <InArgument x:TypeArguments="x:String" x:Key="Employee ID">[in_strEmpID]</InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="Date of Hire">[in_QueueData.SpecificContent("DOH").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="Date of Hire">[in_QueueData.SpecificContent("Date of Hire").ToString]</InArgument>
       </ui:AddQueueItem.ItemInformation>
     </ui:AddQueueItem>
     <ui:LogMessage DisplayName="Log Message - Add to Queue Success" sap:VirtualizedContainerService.HintSize="388,141" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="[UiPath.Core.Activities.LogLevel.Info]" Message="[&quot;Successfully added  item into new hire paperwork  queue&quot;+in_strQueueName]" />

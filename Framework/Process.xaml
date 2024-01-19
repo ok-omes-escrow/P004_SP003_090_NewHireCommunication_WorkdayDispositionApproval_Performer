@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:h="clr-namespace:Holiday_Calendar;assembly=Holiday Calendar" xmlns:l="clr-namespace:LIB_O365_Sharepoint_00_00;assembly=LIB_O365_Sharepoint_00.00" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:sc="clr-namespace:System.ComponentModel;assembly=System.ComponentModel.TypeConverter" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:h="clr-namespace:Holiday_Calendar;assembly=Holiday Calendar" xmlns:l="clr-namespace:LIB_GraphAPI;assembly=LIB_GraphAPI" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:sc="clr-namespace:System.ComponentModel;assembly=System.ComponentModel.TypeConverter" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(ui:QueueItem)" />
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
@@ -8,7 +8,7 @@
   <VisualBasic.Settings>
     <x:Null />
   </VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1514,4427</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1514,4478</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="100">
@@ -69,6 +69,7 @@
       <x:String>System.Dynamic</x:String>
       <x:String>System.Collections.Specialized</x:String>
       <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>LIB_GraphAPI</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -143,9 +144,10 @@
       <AssemblyReference>System.Collections.Specialized</AssemblyReference>
       <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
       <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
+      <AssemblyReference>LIB_GraphAPI</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="685,4362" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="685,4413" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="strEmployeeID" />
       <Variable x:TypeArguments="x:Boolean" Default="False" Name="boolOTPFound" />
@@ -177,7 +179,7 @@
         <OutArgument x:TypeArguments="x:String" x:Key="out_strManagerName">[strHiringManagerName]</OutArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
-    <ui:IfElseIf DisplayName="Else If Disposition approved" sap:VirtualizedContainerService.HintSize="623,3723" sap2010:WorkflowViewState.IdRef="IfElseIf_1">
+    <ui:IfElseIf DisplayName="Else If Disposition approved" sap:VirtualizedContainerService.HintSize="623,3774" sap2010:WorkflowViewState.IdRef="IfElseIf_1">
       <ui:IfElseIf.ConditionBlocks>
         <sc:BindingList x:TypeArguments="ui:IfElseIfBlock" AllowEdit="True" AllowNew="True" AllowRemove="True" RaiseListChangedEvents="True">
           <ui:IfElseIfBlock BlockType="If" Condition="[strEmployeeID is Nothing AND boolOTPFound=True]">
@@ -266,7 +268,7 @@
           </ui:IfElseIfBlock>
           <ui:IfElseIfBlock BlockType="ElseIf" Condition="[strEmployeeID IsNot Nothing AND boolOTPFound=True]">
             <ui:IfElseIfBlock.Then>
-              <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="496,1654" sap2010:WorkflowViewState.IdRef="Sequence_4">
+              <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="496,1705" sap2010:WorkflowViewState.IdRef="Sequence_4">
                 <Sequence.Variables>
                   <Variable x:TypeArguments="x:String" Name="strOrientationDate" />
                 </Sequence.Variables>
@@ -276,7 +278,7 @@
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
                 <ui:LogMessage DisplayName="Log Message - Update Emp ID in sharepoint" sap:VirtualizedContainerService.HintSize="434,141" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Updating employee ID in sharepoint list&quot;]" />
-                <l:Update_List_Item DisplayName="Update List Item - Emp ID" sap:VirtualizedContainerService.HintSize="434,447" sap2010:WorkflowViewState.IdRef="Update_List_Item_1" in_ColumnDisplayName="[in_Config(&quot;EmpID_ColumnDisplayName&quot;).ToString]" in_FilterCondition="[&quot;(fields/EmployeeName eq '&quot;+in_TransactionItem.SpecificContent(&quot;Employee Name&quot;).ToString+&quot;') and (fields/JRNumber eq '&quot;+in_TransactionItem.SpecificContent(&quot;JR Number&quot;).ToString+&quot;')&quot;]" in_ValueToBeUpdated="[strEmployeeID]" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAssetName="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strSharepointListName="[in_Config(&quot;NHC_SharepointListName&quot;).ToString]" in_strSharepointURL="[in_Config(&quot;NHC_SharepointURL&quot;).ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]" />
+                <l:Update_List_Item DisplayName="Update List Item - Employee ID" sap:VirtualizedContainerService.HintSize="434,498" sap2010:WorkflowViewState.IdRef="Update_List_Item_2" in_ColumnDisplayName="[in_Config(&quot;EmpID_ColumnDisplayName&quot;).ToString]" in_FilterCondition="[&quot;(fields/EmployeeName eq '&quot;+in_TransactionItem.SpecificContent(&quot;Employee Name&quot;).ToString+&quot;') and (fields/JRNumber eq '&quot;+in_TransactionItem.SpecificContent(&quot;JR Number&quot;).ToString+&quot;')&quot;]" in_ValueToBeUpdated="[strEmployeeID]" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAssetName="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strOrchestratorFolderPath="[in_Config(&quot;OrchestratorFolder&quot;).ToString]" in_strSharepointListName="[in_Config(&quot;NHC_SharepointListName&quot;).ToString]" in_strSharepointURL="[in_Config(&quot;NHC_SharepointURL&quot;).ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]" />
                 <Assign DisplayName="Assign status to emp ID generated" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_6">
                   <Assign.To>
                     <OutArgument x:TypeArguments="x:String">[out_strStatus]</OutArgument>
