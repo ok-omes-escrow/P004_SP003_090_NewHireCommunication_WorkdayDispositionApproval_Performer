@@ -1,18 +1,18 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:l="clr-namespace:LIB_GraphAPI;assembly=LIB_GraphAPI" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ucat="clr-namespace:UiPath.Core.Activities.TextModifications;assembly=UiPath.System.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:l="clr-namespace:LIB_GraphAPI;assembly=LIB_GraphAPI" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:uasa="clr-namespace:UiPath.Activities.System.Arrays;assembly=UiPath.System.Activities" xmlns:ucat="clr-namespace:UiPath.Core.Activities.TextModifications;assembly=UiPath.System.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
-    <x:Property Name="in_strHiringManagerName" Type="InArgument(x:String)" />
-    <x:Property Name="in_strEmployeeName" Type="InArgument(x:String)" />
-    <x:Property Name="in_strHiringManagerEmail" Type="InArgument(x:String)" />
-    <x:Property Name="in_strDOH" Type="InArgument(x:String)" />
-    <x:Property Name="in_strLocation" Type="InArgument(x:String)" />
-    <x:Property Name="in_strNewHireOrientationDate" Type="InArgument(x:String)" />
-    <x:Property Name="in_strEmployeeEmail" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="Hiring Manager name" Name="in_strHiringManagerName" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="Employee Name" Name="in_strEmployeeName" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="Hiring manager email ID" Name="in_strHiringManagerEmail" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="Date of hire of employee" Name="in_strDOH" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="Work Location of the employee" Name="in_strLocation" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="Orientation date" Name="in_strNewHireOrientationDate" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="Employee Email" Name="in_strEmployeeEmail" Type="InArgument(x:String)" />
   </x:Members>
   <VisualBasic.Settings>
     <x:Null />
   </VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1514,5888</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1514,12140</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="100">
@@ -75,6 +75,7 @@
       <x:String>UiPath.MicrosoftOffice365.Activities.Files.Enums</x:String>
       <x:String>UiPath.Platform.ResourceHandling</x:String>
       <x:String>LIB_GraphAPI</x:String>
+      <x:String>UiPath.Activities.System.Arrays</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -156,7 +157,7 @@
       <AssemblyReference>LIB_GraphAPI</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Send email to Hiring Manager and New Hire Employee" DisplayName="Send Welcome Email" sap:VirtualizedContainerService.HintSize="472,5823" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Send email to Hiring Manager and New Hire Employee with contents and attachments as per the template file" DisplayName="Send Welcome Email" sap:VirtualizedContainerService.HintSize="548,12075" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="strWelcomeEmailBody" />
       <Variable x:TypeArguments="x:String" Name="strHiringEmailSubject" />
@@ -169,6 +170,12 @@
       <Variable x:TypeArguments="x:Boolean" Name="boolWTFound" />
       <Variable x:TypeArguments="x:String" Name="strWETemplateFilePath" />
       <Variable x:TypeArguments="x:Boolean" Name="boolWETemplateDownload" />
+      <Variable x:TypeArguments="x:Boolean" Name="boolAttachmentFound" />
+      <Variable x:TypeArguments="x:String" Name="strWEAttachments" />
+      <Variable x:TypeArguments="x:Boolean" Name="boolWEAttachmentDownload" />
+      <Variable x:TypeArguments="scg:List(x:String)" Default="[new List(of String)]" Name="listWEAttachments" />
+      <Variable x:TypeArguments="x:String" Name="strHMAttachments" />
+      <Variable x:TypeArguments="scg:List(x:String)" Default="[new List(of String)]" Name="listHMAttachments" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -176,16 +183,17 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:LogMessage DisplayName="Log Message Process Start" sap:VirtualizedContainerService.HintSize="410,141" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Started Welcome Email Process&quot;]" />
-    <l:Files_or_Folders_Exist out_intResultCount="{x:Null}" DisplayName="Check if Hiring Manager Email Template exists" sap:VirtualizedContainerService.HintSize="410,52" sap2010:WorkflowViewState.IdRef="Files_or_Folders_Exist_3" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAssetName="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strOrchestratorFolderPath="[in_Config(&quot;OrchestratorFolder&quot;).ToString]" in_strSharepointFileFolderToSearch="[in_Config(&quot;HiringManagerTemplate_FileName&quot;).ToString]" in_strSharepointSubfolder="[in_Config(&quot;EmailTemplatesFolderPath&quot;).ToString]" in_strSharepointURL="[in_Config(&quot;BOT_SharepointURL&quot;).ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]" out_boolResultFileFolderFound="[boolHMTemplate]">
+    <ui:LogMessage DisplayName="Log Message Process Start" sap:VirtualizedContainerService.HintSize="486,141" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Started Welcome Email Process&quot;]" />
+    <ui:LogMessage DisplayName="Log Message HM Template" sap:VirtualizedContainerService.HintSize="486,141" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Check if Hiring Manager Email Template exists in sharepoint&quot;]" />
+    <l:Files_or_Folders_Exist out_intResultCount="{x:Null}" DisplayName="Check if Hiring Manager Email Template exists" sap:VirtualizedContainerService.HintSize="486,498" sap2010:WorkflowViewState.IdRef="Files_or_Folders_Exist_3" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAssetName="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strOrchestratorFolderPath="[in_Config(&quot;OrchestratorFolder&quot;).ToString]" in_strSharepointFileFolderToSearch="[in_Config(&quot;HiringManagerTemplate_FileName&quot;).ToString]" in_strSharepointSubfolder="[in_Config(&quot;EmailTemplatesFolderPath&quot;).ToString]" in_strSharepointURL="[in_Config(&quot;BOT_SharepointURL&quot;).ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]" out_boolResultFileFolderFound="[boolHMTemplate]">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           <x:Boolean x:Key="IsPinned">False</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </l:Files_or_Folders_Exist>
-    <If Condition="[boolHMTemplate]" DisplayName="If HM Template exists" sap:VirtualizedContainerService.HintSize="410,870" sap2010:WorkflowViewState.IdRef="If_1">
+    <If Condition="[boolHMTemplate]" DisplayName="If HM Template exists" sap:VirtualizedContainerService.HintSize="486,681" sap2010:WorkflowViewState.IdRef="If_1">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -193,13 +201,21 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
       <If.Then>
-        <Sequence sap:VirtualizedContainerService.HintSize="376,688" sap2010:WorkflowViewState.IdRef="Sequence_12">
+        <Sequence sap:VirtualizedContainerService.HintSize="376,321" sap2010:WorkflowViewState.IdRef="Sequence_12">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <l:Download_File DisplayName="Download HM Template File" sap:VirtualizedContainerService.HintSize="334,600" sap2010:WorkflowViewState.IdRef="Download_File_3" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAsset="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strDelay="[in_Config(&quot;DelayTimeXS&quot;).ToString]" in_strLocalFilePath="[Path.Combine(in_Config(&quot;RuntimeLocalFolderPath&quot;).ToString,in_Config(&quot;logF_BusinessProcessName&quot;).ToString)]" in_strOrchestratorFolderPath="[in_Config(&quot;OrchestratorFolder&quot;).ToString]" in_strParentDriveItemOptional="[Nothing]" in_strSharepointURL="[in_Config(&quot;BOT_SharepointURL&quot;).ToString]" in_strSpParentFolderPath="[in_Config(&quot;EmailTemplatesFolderPath&quot;).ToString+&quot;/&quot;+in_Config(&quot;HiringManagerTemplate_FileName&quot;).ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]" out_boolFileDownloaded="[boolHMTemplateDownload]" out_strDownloadedFilePath="[strHMTemplateFilePath]" />
+          <ui:LogMessage DisplayName="Log Message HM Template Download" sap:VirtualizedContainerService.HintSize="334,141" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Downloading Hiring Manager Email Template from sharepoint&quot;]" />
+          <l:Download_File DisplayName="Download HM Template File" sap:VirtualizedContainerService.HintSize="334,52" sap2010:WorkflowViewState.IdRef="Download_File_3" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAsset="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strDelay="[in_Config(&quot;DelayTimeXS&quot;).ToString]" in_strLocalFilePath="[Path.Combine(in_Config(&quot;RuntimeLocalFolderPath&quot;).ToString,in_Config(&quot;logF_BusinessProcessName&quot;).ToString)]" in_strOrchestratorFolderPath="[in_Config(&quot;OrchestratorFolder&quot;).ToString]" in_strParentDriveItemOptional="[Nothing]" in_strSharepointURL="[in_Config(&quot;BOT_SharepointURL&quot;).ToString]" in_strSpParentFolderPath="[in_Config(&quot;EmailTemplatesFolderPath&quot;).ToString+&quot;/&quot;+in_Config(&quot;HiringManagerTemplate_FileName&quot;).ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]" out_boolFileDownloaded="[boolHMTemplateDownload]" out_strDownloadedFilePath="[strHMTemplateFilePath]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </l:Download_File>
         </Sequence>
       </If.Then>
       <If.Else>
@@ -213,7 +229,7 @@
         </Sequence>
       </If.Else>
     </If>
-    <If Condition="[boolHMTemplateDownload]" DisplayName="If HM Template download success" sap:VirtualizedContainerService.HintSize="410,358" sap2010:WorkflowViewState.IdRef="If_2">
+    <If Condition="[boolHMTemplateDownload]" DisplayName="If HM Template download success" sap:VirtualizedContainerService.HintSize="486,717" sap2010:WorkflowViewState.IdRef="If_2">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -221,12 +237,13 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
       <If.Then>
-        <Sequence sap:VirtualizedContainerService.HintSize="376,176" sap2010:WorkflowViewState.IdRef="Sequence_14">
+        <Sequence sap:VirtualizedContainerService.HintSize="376,357" sap2010:WorkflowViewState.IdRef="Sequence_14">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
+          <ui:LogMessage DisplayName="Log Message HM Template Read" sap:VirtualizedContainerService.HintSize="334,141" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Reading Hiring Manger Email template file&quot;]" />
           <ui:ReadRange Range="{x:Null}" AddHeaders="True" DataTable="[dt_HiringTemplate]" DisplayName="Read Range Hiring Template" sap:VirtualizedContainerService.HintSize="334,88" sap2010:WorkflowViewState.IdRef="ReadRange_1" SheetName="[in_Config(&quot;HMTemplateSheetName&quot;).ToString]" WorkbookPath="[strHMTemplateFilePath]" />
         </Sequence>
       </If.Then>
@@ -241,16 +258,17 @@
         </Sequence>
       </If.Else>
     </If>
-    <ui:ModifyText DisplayName="Modify Hiring Email Template Text" sap:VirtualizedContainerService.HintSize="410,343" sap2010:WorkflowViewState.IdRef="ModifyText_1" OutputText="[strHiringEmailBody]" SourceText="[dt_HiringTemplate(0)(&quot;Email Body&quot;).tostring]">
+    <ui:ModifyText DisplayName="Modify Hiring Email Template Text" sap:VirtualizedContainerService.HintSize="486,502" sap2010:WorkflowViewState.IdRef="ModifyText_1" OutputText="[strHiringEmailBody]" SourceText="[dt_HiringTemplate(0)(&quot;Email Body&quot;).tostring]">
       <ui:ModifyText.Body>
         <ActivityAction>
-          <Sequence DisplayName="Relpace Hiring Manager name" sap:VirtualizedContainerService.HintSize="450,260" sap2010:WorkflowViewState.IdRef="Sequence_3">
+          <Sequence DisplayName="Relpace Hiring Manager name" sap:VirtualizedContainerService.HintSize="450,449" sap2010:WorkflowViewState.IdRef="Sequence_3">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
             <ucat:FindAndReplaceTextModification DisplayName="Find and replace manager name" sap:VirtualizedContainerService.HintSize="334,149" sap2010:WorkflowViewState.IdRef="FindAndReplaceTextModification_1" ReplaceText="[in_strHiringManagerName]" SearchText="%[Hiring Manager]" />
+            <ucat:FindAndReplaceTextModification DisplayName="Find and replace HR email - HM Template" sap:VirtualizedContainerService.HintSize="334,149" sap2010:WorkflowViewState.IdRef="FindAndReplaceTextModification_7" ReplaceText="[in_Config(&quot;HR_Email&quot;).ToString]" SearchText="&lt;HR Email&gt;" />
           </Sequence>
         </ActivityAction>
       </ui:ModifyText.Body>
@@ -261,7 +279,7 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:ModifyText>
-    <ui:ModifyText DisplayName="Modify Email Subject" sap:VirtualizedContainerService.HintSize="410,343" sap2010:WorkflowViewState.IdRef="ModifyText_3" OutputText="[strHiringEmailSubject]" SourceText="[dt_HiringTemplate(0)(&quot;Email Subject&quot;).tostring]">
+    <ui:ModifyText DisplayName="Modify Email Subject" sap:VirtualizedContainerService.HintSize="486,52" sap2010:WorkflowViewState.IdRef="ModifyText_3" OutputText="[strHiringEmailSubject]" SourceText="[dt_HiringTemplate(0)(&quot;Email Subject&quot;).tostring]">
       <ui:ModifyText.Body>
         <ActivityAction>
           <Sequence DisplayName="Replace New Hire Name" sap:VirtualizedContainerService.HintSize="450,260" sap2010:WorkflowViewState.IdRef="Sequence_11">
@@ -274,37 +292,115 @@
           </Sequence>
         </ActivityAction>
       </ui:ModifyText.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
     </ui:ModifyText>
-    <ui:LogMessage DisplayName="Log Message - Email Hiring Manager" sap:VirtualizedContainerService.HintSize="410,141" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Sending email to hiring manager&quot;]" />
-    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Hiring Manager - SendEmail-O365.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="410,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Email\SendEmail-O365.xaml">
+    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each Attachment - Hiring Manager Email" sap:VirtualizedContainerService.HintSize="486,2397" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[dt_HiringTemplate(0)(&quot;Attachment File Name&quot;).tostring.split(&quot;,&quot;c).tolist]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="x:String">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:String" Name="currentText" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Check and download attachments" sap:VirtualizedContainerService.HintSize="452,2211" sap2010:WorkflowViewState.IdRef="Sequence_29">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:LogMessage DisplayName="Log Message HM Attachment" sap:VirtualizedContainerService.HintSize="410,141" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Check if Hiring Manager Email Template attachment &quot;+currentText+&quot; exists in sharepoint&quot;]" />
+            <l:Files_or_Folders_Exist out_intResultCount="{x:Null}" DisplayName="Check if HM Email Attachment exists" sap:VirtualizedContainerService.HintSize="410,52" sap2010:WorkflowViewState.IdRef="Files_or_Folders_Exist_6" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAssetName="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strOrchestratorFolderPath="[in_Config(&quot;OrchestratorFolder&quot;).ToString]" in_strSharepointFileFolderToSearch="[currentText.ToString]" in_strSharepointSubfolder="[in_Config(&quot;EmailAttachmentsFolderPath&quot;).ToString]" in_strSharepointURL="[in_Config(&quot;BOT_SharepointURL&quot;).ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]" out_boolResultFileFolderFound="[boolAttachmentFound]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </l:Files_or_Folders_Exist>
+            <If Condition="[boolAttachmentFound]" DisplayName="If HM email attachment exists" sap:VirtualizedContainerService.HintSize="410,1229" sap2010:WorkflowViewState.IdRef="If_7">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If.Then>
+                <Sequence sap:VirtualizedContainerService.HintSize="376,869" sap2010:WorkflowViewState.IdRef="Sequence_25">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:LogMessage DisplayName="Log Message HM Attachment download" sap:VirtualizedContainerService.HintSize="334,141" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Downloading email attachment &quot;+currentText+&quot; from sharepoint&quot;]" />
+                  <l:Download_File DisplayName="Download HM Email Attachments" sap:VirtualizedContainerService.HintSize="334,600" sap2010:WorkflowViewState.IdRef="Download_File_6" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAsset="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strDelay="[in_Config(&quot;DelayTimeXS&quot;).ToString]" in_strLocalFilePath="[Path.Combine(in_Config(&quot;RuntimeLocalFolderPath&quot;).ToString,in_Config(&quot;logF_BusinessProcessName&quot;).ToString)]" in_strOrchestratorFolderPath="[in_Config(&quot;OrchestratorFolder&quot;).ToString]" in_strParentDriveItemOptional="[Nothing]" in_strSharepointURL="[in_Config(&quot;BOT_SharepointURL&quot;).ToString]" in_strSpParentFolderPath="[in_Config(&quot;EmailAttachmentsFolderPath&quot;).ToString+&quot;/&quot;+currentText.ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]" out_boolFileDownloaded="[boolHMTemplateDownload]" out_strDownloadedFilePath="[strHMAttachments]" />
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence sap:VirtualizedContainerService.HintSize="376,178" sap2010:WorkflowViewState.IdRef="Sequence_26">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Throw DisplayName="Throw File Not Found - HM Template" Exception="[new Exception(in_Config(&quot;System Exception_9&quot;).ToString+&quot; : &quot;+currentText.ToString)]" sap:VirtualizedContainerService.HintSize="334,90" sap2010:WorkflowViewState.IdRef="Throw_8" />
+                </Sequence>
+              </If.Else>
+            </If>
+            <If Condition="[boolHMTemplateDownload]" DisplayName="If HM email attachment download success" sap:VirtualizedContainerService.HintSize="410,581" sap2010:WorkflowViewState.IdRef="If_8">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If.Then>
+                <Sequence sap:VirtualizedContainerService.HintSize="376,221" sap2010:WorkflowViewState.IdRef="Sequence_27">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <uasa:AppendItemToList x:TypeArguments="x:String" ItemIndex="{x:Null}" DisplayName="Append Item to HM Attachments List" sap:VirtualizedContainerService.HintSize="334,133" sap2010:WorkflowViewState.IdRef="AppendItemToList`1_2" ItemToAppend="[strHMAttachments]" List="[listHMAttachments]" />
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence sap:VirtualizedContainerService.HintSize="376,178" sap2010:WorkflowViewState.IdRef="Sequence_28">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Throw DisplayName="Throw HM attachments download failed" Exception="[new Exception(in_Config(&quot;System Exception_10&quot;).ToString+&quot; : &quot;+currentText.ToString)]" sap:VirtualizedContainerService.HintSize="334,90" sap2010:WorkflowViewState.IdRef="Throw_7" />
+                </Sequence>
+              </If.Else>
+            </If>
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:ForEach>
+    <ui:LogMessage DisplayName="Log Message - Email Hiring Manager" sap:VirtualizedContainerService.HintSize="486,141" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Sending email to hiring manager&quot;]" />
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Hiring Manager - SendEmail-O365.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="486,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Email\SendEmail-O365.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InArgument x:TypeArguments="x:String" x:Key="in_strAccount">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;EmailAccount&quot;).ToString" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_strBody">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="strHiringEmailBody" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_strSubject">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="strHiringEmailSubject" />
-        </InArgument>
-        <InArgument x:TypeArguments="s:String[]" x:Key="in_arrToEmail">
-          <VisualBasicValue x:TypeArguments="s:String[]" ExpressionText="in_strHiringManagerEmail.Split(&quot;;&quot;c)" />
-        </InArgument>
-        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_listAttachmentFiles">
-          <VisualBasicValue x:TypeArguments="scg:List(x:String)" ExpressionText="new List(of string)" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_strTenantIDAsset">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;O365TenantID&quot;).ToString" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_strAppSecretAsset">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;O365ApplicationSecret&quot;).ToString" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_strAppIDAsset">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;O365TenantID&quot;).ToString" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_strOrchestratorFolder">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;OrchestratorFolder&quot;).ToString" />
-        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_strAccount">[in_Config("EmailAccount").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_strBody">[strHiringEmailBody]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_strSubject">[strHiringEmailSubject]</InArgument>
+        <InArgument x:TypeArguments="s:String[]" x:Key="in_arrToEmail">[in_strHiringManagerEmail.Split(","c)]</InArgument>
+        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_listAttachmentFiles">[listHMAttachments]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_strTenantIDAsset">[in_Config("O365TenantID").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_strAppSecretAsset">[in_Config("O365ApplicationSecret").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_strAppIDAsset">[in_Config("O365AppID").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_strOrchestratorFolder">[in_Config("OrchestratorFolder").ToString]</InArgument>
+        <InArgument x:TypeArguments="s:String[]" x:Key="in_arrCCEmail" />
       </ui:InvokeWorkflowFile.Arguments>
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -313,7 +409,8 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:InvokeWorkflowFile>
-    <l:Files_or_Folders_Exist out_intResultCount="{x:Null}" DisplayName="Check if Welcome Email Template exists" sap:VirtualizedContainerService.HintSize="410,498" sap2010:WorkflowViewState.IdRef="Files_or_Folders_Exist_4" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAssetName="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strOrchestratorFolderPath="[in_Config(&quot;OrchestratorFolder&quot;).ToString]" in_strSharepointFileFolderToSearch="[in_Config(&quot;WelcomeEmailTemplate_FileName&quot;).ToString]" in_strSharepointSubfolder="[in_Config(&quot;EmailTemplatesFolderPath&quot;).ToString]" in_strSharepointURL="[in_Config(&quot;BOT_SharepointURL&quot;).ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]" out_boolResultFileFolderFound="[boolWTFound]">
+    <ui:LogMessage DisplayName="Log Message WE Template" sap:VirtualizedContainerService.HintSize="486,141" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Check if Welcome Email Template exists in sharepoint&quot;]" />
+    <l:Files_or_Folders_Exist out_intResultCount="{x:Null}" DisplayName="Check if Welcome Email Template exists" sap:VirtualizedContainerService.HintSize="486,498" sap2010:WorkflowViewState.IdRef="Files_or_Folders_Exist_4" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAssetName="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strOrchestratorFolderPath="[in_Config(&quot;OrchestratorFolder&quot;).ToString]" in_strSharepointFileFolderToSearch="[in_Config(&quot;WelcomeEmailTemplate_FileName&quot;).ToString]" in_strSharepointSubfolder="[in_Config(&quot;EmailTemplatesFolderPath&quot;).ToString]" in_strSharepointURL="[in_Config(&quot;BOT_SharepointURL&quot;).ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]" out_boolResultFileFolderFound="[boolWTFound]">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -321,7 +418,7 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </l:Files_or_Folders_Exist>
-    <If Condition="[boolWTFound]" DisplayName="If Welcome Template exists" sap:VirtualizedContainerService.HintSize="410,870" sap2010:WorkflowViewState.IdRef="If_3">
+    <If Condition="[boolWTFound]" DisplayName="If Welcome Template exists" sap:VirtualizedContainerService.HintSize="486,1051" sap2010:WorkflowViewState.IdRef="If_3">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -329,12 +426,13 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
       <If.Then>
-        <Sequence sap:VirtualizedContainerService.HintSize="376,688" sap2010:WorkflowViewState.IdRef="Sequence_16">
+        <Sequence sap:VirtualizedContainerService.HintSize="376,869" sap2010:WorkflowViewState.IdRef="Sequence_16">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
+          <ui:LogMessage DisplayName="Log Message WE Template Download" sap:VirtualizedContainerService.HintSize="334,141" sap2010:WorkflowViewState.IdRef="LogMessage_14" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Downloading welcome email template from sharepoint&quot;]" />
           <l:Download_File DisplayName="Download Welcome Email Template File" sap:VirtualizedContainerService.HintSize="334,600" sap2010:WorkflowViewState.IdRef="Download_File_4" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAsset="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strDelay="[in_Config(&quot;DelayTimeXS&quot;).ToString]" in_strLocalFilePath="[Path.Combine(in_Config(&quot;RuntimeLocalFolderPath&quot;).ToString,in_Config(&quot;logF_BusinessProcessName&quot;).ToString)]" in_strOrchestratorFolderPath="[in_Config(&quot;OrchestratorFolder&quot;).ToString]" in_strParentDriveItemOptional="[Nothing]" in_strSharepointURL="[in_Config(&quot;BOT_SharepointURL&quot;).ToString]" in_strSpParentFolderPath="[in_Config(&quot;EmailTemplatesFolderPath&quot;).ToString+&quot;/&quot;+in_Config(&quot;WelcomeEmailTemplate_FileName&quot;).ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]" out_boolFileDownloaded="[boolWETemplateDownload]" out_strDownloadedFilePath="[strWETemplateFilePath]" />
         </Sequence>
       </If.Then>
@@ -349,7 +447,7 @@
         </Sequence>
       </If.Else>
     </If>
-    <If Condition="[boolWETemplateDownload]" DisplayName="If Welcome Template download success" sap:VirtualizedContainerService.HintSize="410,358" sap2010:WorkflowViewState.IdRef="If_4">
+    <If Condition="[boolWETemplateDownload]" DisplayName="If Welcome Template download success" sap:VirtualizedContainerService.HintSize="486,358" sap2010:WorkflowViewState.IdRef="If_4">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -367,17 +465,17 @@
         </Sequence>
       </If.Then>
       <If.Else>
-        <Sequence sap:VirtualizedContainerService.HintSize="376,178" sap2010:WorkflowViewState.IdRef="Sequence_19">
+        <Sequence sap:VirtualizedContainerService.HintSize="376,179" sap2010:WorkflowViewState.IdRef="Sequence_19">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <Throw DisplayName="Throw WET download failed" Exception="[New Exception(in_Config(&quot;System Exception_5&quot;).ToString+&quot; : &quot;+in_Config(&quot;EmailTemplatesFolderPath&quot;).ToString+&quot;/&quot;+in_Config(&quot;WelcomeEmailTemplate_FileName&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="334,90" sap2010:WorkflowViewState.IdRef="Throw_4" />
+          <Throw DisplayName="Throw WET download failed" Exception="[New Exception(in_Config(&quot;System Exception_5&quot;).ToString+&quot; : &quot;+in_Config(&quot;EmailTemplatesFolderPath&quot;).ToString+&quot;/&quot;+in_Config(&quot;WelcomeEmailTemplate_FileName&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="Throw_4" />
         </Sequence>
       </If.Else>
     </If>
-    <ui:ModifyText DisplayName="Modify Welcome Email Text" sap:VirtualizedContainerService.HintSize="410,820" sap2010:WorkflowViewState.IdRef="ModifyText_2" OutputText="[strWelcomeEmailBody]" SourceText="[dt_WelcomeEmail(0)(&quot;Email Body&quot;).tostring]">
+    <ui:ModifyText DisplayName="Modify Welcome Email Text" sap:VirtualizedContainerService.HintSize="486,979" sap2010:WorkflowViewState.IdRef="ModifyText_2" OutputText="[strWelcomeEmailBody]" SourceText="[dt_WelcomeEmail(0)(&quot;Email Body&quot;).tostring]">
       <ui:ModifyText.Body>
         <ActivityAction>
           <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_9">
@@ -390,6 +488,7 @@
             <ucat:FindAndReplaceTextModification DisplayName="Find and replace location" sap:VirtualizedContainerService.HintSize="334,149" sap2010:WorkflowViewState.IdRef="FindAndReplaceTextModification_4" ReplaceText="[in_strLocation]" SearchText="(insert location)" />
             <ucat:FindAndReplaceTextModification DisplayName="Find and replace supervisor" sap:VirtualizedContainerService.HintSize="334,149" sap2010:WorkflowViewState.IdRef="FindAndReplaceTextModification_5" ReplaceText="[in_strHiringManagerName]" SearchText="(Insert Supervisor)" />
             <ucat:FindAndReplaceTextModification DisplayName="Find and replace Orientation date" sap:VirtualizedContainerService.HintSize="334,149" sap2010:WorkflowViewState.IdRef="FindAndReplaceTextModification_6" ReplaceText="[in_strNewHireOrientationDate]" SearchText="(Insert Date)" />
+            <ucat:FindAndReplaceTextModification DisplayName="Find and replace HR email" sap:VirtualizedContainerService.HintSize="334,149" sap2010:WorkflowViewState.IdRef="FindAndReplaceTextModification_8" ReplaceText="[in_Config(&quot;HR_Email&quot;).ToString]" SearchText="&lt;HR Email&gt;" />
           </Sequence>
         </ActivityAction>
       </ui:ModifyText.Body>
@@ -400,36 +499,108 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:ModifyText>
-    <ui:LogMessage DisplayName="Log Message - Email New Hire" sap:VirtualizedContainerService.HintSize="410,141" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Sending welcome email to new employee&quot;]" />
-    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="SendEmail-O365.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="410,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Email\SendEmail-O365.xaml">
+    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each Attachment - Welcome Email Template" sap:VirtualizedContainerService.HintSize="486,2397" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[dt_WelcomeEmail(0)(&quot;Attachment File Name&quot;).tostring.split(&quot;,&quot;c).tolist]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="x:String">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:String" Name="currentText" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="452,2211" sap2010:WorkflowViewState.IdRef="Sequence_20">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:LogMessage DisplayName="Log Message WE Attachment" sap:VirtualizedContainerService.HintSize="410,141" sap2010:WorkflowViewState.IdRef="LogMessage_16" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Check if  Welcome Email Template attachment &quot;+currentText+&quot; exists in sharepoint&quot;]" />
+            <l:Files_or_Folders_Exist out_intResultCount="{x:Null}" DisplayName="Check if Welcome Email Attachment exists" sap:VirtualizedContainerService.HintSize="410,52" sap2010:WorkflowViewState.IdRef="Files_or_Folders_Exist_5" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAssetName="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strOrchestratorFolderPath="[in_Config(&quot;OrchestratorFolder&quot;).ToString]" in_strSharepointFileFolderToSearch="[currentText.ToString]" in_strSharepointSubfolder="[in_Config(&quot;EmailAttachmentsFolderPath&quot;).ToString]" in_strSharepointURL="[in_Config(&quot;BOT_SharepointURL&quot;).ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]" out_boolResultFileFolderFound="[boolAttachmentFound]">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </l:Files_or_Folders_Exist>
+            <If Condition="[boolAttachmentFound]" DisplayName="If Welcome email attachment exists" sap:VirtualizedContainerService.HintSize="410,1229" sap2010:WorkflowViewState.IdRef="If_5">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If.Then>
+                <Sequence sap:VirtualizedContainerService.HintSize="376,869" sap2010:WorkflowViewState.IdRef="Sequence_21">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:LogMessage DisplayName="Log Message WE Attachment download" sap:VirtualizedContainerService.HintSize="334,141" sap2010:WorkflowViewState.IdRef="LogMessage_19" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Downloading welcome email attachment &quot;+currentText+&quot; from sharepoint&quot;]" />
+                  <l:Download_File DisplayName="Download Welcome Email Attachments" sap:VirtualizedContainerService.HintSize="334,600" sap2010:WorkflowViewState.IdRef="Download_File_5" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAsset="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strDelay="[in_Config(&quot;DelayTimeXS&quot;).ToString]" in_strLocalFilePath="[Path.Combine(in_Config(&quot;RuntimeLocalFolderPath&quot;).ToString,in_Config(&quot;logF_BusinessProcessName&quot;).ToString)]" in_strOrchestratorFolderPath="[in_Config(&quot;OrchestratorFolder&quot;).ToString]" in_strParentDriveItemOptional="[Nothing]" in_strSharepointURL="[in_Config(&quot;BOT_SharepointURL&quot;).ToString]" in_strSpParentFolderPath="[in_Config(&quot;EmailAttachmentsFolderPath&quot;).ToString+&quot;/&quot;+currentText.ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]" out_boolFileDownloaded="[boolWEAttachmentDownload]" out_strDownloadedFilePath="[strWEAttachments]" />
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence sap:VirtualizedContainerService.HintSize="376,178" sap2010:WorkflowViewState.IdRef="Sequence_22">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Throw DisplayName="Throw File Not Found" Exception="[new Exception(in_Config(&quot;System Exception_9&quot;).ToString+&quot; : &quot;+currentText.ToString)]" sap:VirtualizedContainerService.HintSize="334,90" sap2010:WorkflowViewState.IdRef="Throw_5" />
+                </Sequence>
+              </If.Else>
+            </If>
+            <If Condition="[boolWEAttachmentDownload]" DisplayName="If Welcome email download success" sap:VirtualizedContainerService.HintSize="410,581" sap2010:WorkflowViewState.IdRef="If_6">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If.Then>
+                <Sequence sap:VirtualizedContainerService.HintSize="376,221" sap2010:WorkflowViewState.IdRef="Sequence_23">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <uasa:AppendItemToList x:TypeArguments="x:String" ItemIndex="{x:Null}" DisplayName="Append Item to Attachments List" sap:VirtualizedContainerService.HintSize="334,133" sap2010:WorkflowViewState.IdRef="AppendItemToList`1_1" ItemToAppend="[strWEAttachments]" List="[listWEAttachments]" />
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence sap:VirtualizedContainerService.HintSize="376,178" sap2010:WorkflowViewState.IdRef="Sequence_24">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Throw DisplayName="Throw download failed" Exception="[new Exception(in_Config(&quot;System Exception_10&quot;).ToString+&quot; : &quot;+currentText.ToString)]" sap:VirtualizedContainerService.HintSize="334,90" sap2010:WorkflowViewState.IdRef="Throw_6" />
+                </Sequence>
+              </If.Else>
+            </If>
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:ForEach>
+    <ui:LogMessage DisplayName="Log Message - Email New Hire" sap:VirtualizedContainerService.HintSize="486,141" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Sending welcome email to new employee&quot;]" />
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="SendEmail-O365.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="486,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Email\SendEmail-O365.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InArgument x:TypeArguments="x:String" x:Key="in_strAccount">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;EmailAccount&quot;).ToString" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_strBody">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="strWelcomeEmailBody" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_strSubject">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="dt_WelcomeEmail(0)(&quot;Email Subject&quot;).tostring" />
-        </InArgument>
-        <InArgument x:TypeArguments="s:String[]" x:Key="in_arrToEmail">
-          <VisualBasicValue x:TypeArguments="s:String[]" ExpressionText="in_strEmployeeEmail.Split(&quot;;&quot;c)" />
-        </InArgument>
-        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_listAttachmentFiles">
-          <VisualBasicValue x:TypeArguments="scg:List(x:String)" ExpressionText="dt_WelcomeEmail(0)(&quot;Attachment File Path&quot;).tostring.split(&quot;;&quot;c).tolist" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_strTenantIDAsset">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;O365TenantID&quot;).ToString" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_strAppSecretAsset">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;O365ApplicationSecret&quot;).ToString" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_strAppIDAsset">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;O365TenantID&quot;).ToString" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_strOrchestratorFolder">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;OrchestratorFolder&quot;).ToString" />
-        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_strAccount">[in_Config("EmailAccount").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_strBody">[strWelcomeEmailBody]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_strSubject">[dt_WelcomeEmail(0)("Email Subject").tostring]</InArgument>
+        <InArgument x:TypeArguments="s:String[]" x:Key="in_arrToEmail">[in_strEmployeeEmail.Split(","c)]</InArgument>
+        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="in_listAttachmentFiles">[listWEAttachments]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_strTenantIDAsset">[in_Config("O365TenantID").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_strAppSecretAsset">[in_Config("O365ApplicationSecret").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_strAppIDAsset">[in_Config("O365AppID").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_strOrchestratorFolder">[in_Config("OrchestratorFolder").ToString]</InArgument>
+        <InArgument x:TypeArguments="s:String[]" x:Key="in_arrCCEmail">[in_strHiringManagerEmail.Split(","c)]</InArgument>
       </ui:InvokeWorkflowFile.Arguments>
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -438,5 +609,6 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:InvokeWorkflowFile>
+    <ui:LogMessage DisplayName="Log Message Process End" sap:VirtualizedContainerService.HintSize="486,141" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;End Welcome Email Process&quot;]" />
   </Sequence>
 </Activity>
