@@ -12,7 +12,7 @@
   <VisualBasic.Settings>
     <x:Null />
   </VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1514,12140</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1498,11428</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="100">
@@ -157,7 +157,7 @@
       <AssemblyReference>LIB_GraphAPI</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Send email to Hiring Manager and New Hire Employee with contents and attachments as per the template file" DisplayName="Send Welcome Email" sap:VirtualizedContainerService.HintSize="548,12075" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Send email to Hiring Manager and New Hire Employee with contents and attachments as per the template file" DisplayName="Send Welcome Email" sap:VirtualizedContainerService.HintSize="548,11363" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="strWelcomeEmailBody" />
       <Variable x:TypeArguments="x:String" Name="strHiringEmailSubject" />
@@ -193,7 +193,7 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </l:Files_or_Folders_Exist>
-    <If Condition="[boolHMTemplate]" DisplayName="If HM Template exists" sap:VirtualizedContainerService.HintSize="486,681" sap2010:WorkflowViewState.IdRef="If_1">
+    <If Condition="[boolHMTemplate]" DisplayName="If HM Template exists" sap:VirtualizedContainerService.HintSize="486,503" sap2010:WorkflowViewState.IdRef="If_1">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -229,7 +229,7 @@
         </Sequence>
       </If.Else>
     </If>
-    <If Condition="[boolHMTemplateDownload]" DisplayName="If HM Template download success" sap:VirtualizedContainerService.HintSize="486,717" sap2010:WorkflowViewState.IdRef="If_2">
+    <If Condition="[boolHMTemplateDownload]" DisplayName="If HM Template download success" sap:VirtualizedContainerService.HintSize="486,539" sap2010:WorkflowViewState.IdRef="If_2">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -299,13 +299,13 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:ModifyText>
-    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each Attachment - Hiring Manager Email" sap:VirtualizedContainerService.HintSize="486,2397" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[dt_HiringTemplate(0)(&quot;Attachment File Name&quot;).tostring.split(&quot;,&quot;c).tolist]">
+    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each Attachment - Hiring Manager Email" sap:VirtualizedContainerService.HintSize="486,2041" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[dt_HiringTemplate(0)(&quot;Attachment File Name&quot;).tostring.split(&quot;,&quot;c).tolist]">
       <ui:ForEach.Body>
         <ActivityAction x:TypeArguments="x:String">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="x:String" Name="currentText" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Check and download attachments" sap:VirtualizedContainerService.HintSize="452,2211" sap2010:WorkflowViewState.IdRef="Sequence_29">
+          <Sequence DisplayName="Check and download attachments" sap:VirtualizedContainerService.HintSize="452,1855" sap2010:WorkflowViewState.IdRef="Sequence_29">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -320,7 +320,7 @@
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
             </l:Files_or_Folders_Exist>
-            <If Condition="[boolAttachmentFound]" DisplayName="If HM email attachment exists" sap:VirtualizedContainerService.HintSize="410,1229" sap2010:WorkflowViewState.IdRef="If_7">
+            <If Condition="[boolAttachmentFound]" DisplayName="If HM email attachment exists" sap:VirtualizedContainerService.HintSize="410,1051" sap2010:WorkflowViewState.IdRef="If_7">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -349,7 +349,7 @@
                 </Sequence>
               </If.Else>
             </If>
-            <If Condition="[boolHMTemplateDownload]" DisplayName="If HM email attachment download success" sap:VirtualizedContainerService.HintSize="410,581" sap2010:WorkflowViewState.IdRef="If_8">
+            <If Condition="[boolHMTemplateDownload]" DisplayName="If HM email attachment download success" sap:VirtualizedContainerService.HintSize="410,403" sap2010:WorkflowViewState.IdRef="If_8">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>

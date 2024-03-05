@@ -8,7 +8,7 @@
   <VisualBasic.Settings>
     <x:Null />
   </VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1514,4485</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1498,4485</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="100">
@@ -151,7 +151,6 @@
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="strEmployeeID" />
       <Variable x:TypeArguments="x:Boolean" Default="False" Name="boolOTPFound" />
-      <Variable x:TypeArguments="x:String" Name="strLocation" />
       <Variable x:TypeArguments="x:String" Name="strHiringManagerName" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
@@ -175,7 +174,6 @@
         <InArgument x:TypeArguments="x:String" x:Key="in_strEmployeeName">[in_TransactionItem.SpecificContent("Employee Name").ToString]</InArgument>
         <OutArgument x:TypeArguments="x:String" x:Key="out_strEmployeeID">[strEmployeeID]</OutArgument>
         <OutArgument x:TypeArguments="x:Boolean" x:Key="out_boolOTPFound">[boolOTPFound]</OutArgument>
-        <OutArgument x:TypeArguments="x:String" x:Key="out_strLocation">[strLocation]</OutArgument>
         <OutArgument x:TypeArguments="x:String" x:Key="out_strManagerName">[strHiringManagerName]</OutArgument>
         <InArgument x:TypeArguments="x:String" x:Key="in_strSEInboxNotFound">[in_Config("System Exception_11").ToString]</InArgument>
       </ui:InvokeWorkflowFile.Arguments>
@@ -295,7 +293,7 @@
                     <InArgument x:TypeArguments="x:String">Disposition Approved</InArgument>
                   </Assign.Value>
                 </Assign>
-                <h:Get_Next_Working_Day sap2010:Annotation.AnnotationText="Fetch next working wednesday as orientation date using the holiday calendar library" DisplayName="Get Next Working Day - Orientation Date" sap:VirtualizedContainerService.HintSize="434,489" sap2010:WorkflowViewState.IdRef="Get_Next_Working_Day_1" in_excMessageMaxLoopCounter="[in_Config(&quot;System Exception_7&quot;).ToString]" in_excMsgCalenDaysNotFound="[in_Config(&quot;System Exception_8&quot;).ToString]" in_excMsgInvalidCalendarName="[in_Config(&quot;System Exception_6&quot;).ToString]" in_intMaxLoopCounter="[Cint(in_Config(&quot;CalendarLoopCount&quot;).ToString)]" in_strCalenderName="[in_Config(&quot;CalendarName&quot;).ToString]" in_strInputDate="[Today.ToString(&quot;yyyy-MM-dd&quot;)]" in_strRequiredInputDay="[in_Config(&quot;OrientationDay&quot;).ToString]" out_strOutDate="[strOrientationDate]">
+                <h:Get_Next_Working_Day sap2010:Annotation.AnnotationText="Fetch next working wednesday as orientation date using the holiday calendar library" DisplayName="Get Next Working Day - Orientation Date" sap:VirtualizedContainerService.HintSize="434,489" sap2010:WorkflowViewState.IdRef="Get_Next_Working_Day_1" in_excMessageMaxLoopCounter="[in_Config(&quot;System Exception_7&quot;).ToString]" in_excMsgCalenDaysNotFound="[in_Config(&quot;System Exception_8&quot;).ToString]" in_excMsgInvalidCalendarName="[in_Config(&quot;System Exception_6&quot;).ToString]" in_intMaxLoopCounter="[Cint(in_Config(&quot;CalendarLoopCount&quot;).ToString)]" in_strCalenderName="[in_Config(&quot;CalendarName&quot;).ToString]" in_strInputDate="[Convert.ToDateTime(in_TransactionItem.SpecificContent(&quot;Date of Hire&quot;).ToString).ToString(&quot;yyyy-MM-dd&quot;)]" in_strRequiredInputDay="[in_Config(&quot;OrientationDay&quot;).ToString]" out_strOutDate="[strOrientationDate]">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
@@ -309,7 +307,7 @@
                     <InArgument x:TypeArguments="x:String" x:Key="in_strEmployeeName">[in_TransactionItem.SpecificContent("Employee Name").ToString]</InArgument>
                     <InArgument x:TypeArguments="x:String" x:Key="in_strHiringManagerEmail">[in_TransactionItem.SpecificContent("Supervisor Email").ToString]</InArgument>
                     <InArgument x:TypeArguments="x:String" x:Key="in_strDOH">[Convert.ToDateTime(in_TransactionItem.SpecificContent("Date of Hire").ToString).ToString("MM/dd/yyyy")]</InArgument>
-                    <InArgument x:TypeArguments="x:String" x:Key="in_strLocation">[strLocation]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_strLocation">[in_TransactionItem.SpecificContent("Building Name").ToString+"-"+in_TransactionItem.SpecificContent("Building Address").ToString]</InArgument>
                     <InArgument x:TypeArguments="x:String" x:Key="in_strNewHireOrientationDate">[Convert.ToDateTime(strOrientationDate).ToString("MM/dd/yyyy")]</InArgument>
                     <InArgument x:TypeArguments="x:String" x:Key="in_strEmployeeEmail">[in_TransactionItem.SpecificContent("Employee Email").ToString]</InArgument>
                   </ui:InvokeWorkflowFile.Arguments>
