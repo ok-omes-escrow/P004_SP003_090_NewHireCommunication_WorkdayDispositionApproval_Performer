@@ -145,6 +145,7 @@
       <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
       <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
       <AssemblyReference>LIB_GraphAPI</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.ViewModels</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
   <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="685,4420" sap2010:WorkflowViewState.IdRef="Sequence_1">
@@ -171,7 +172,7 @@
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Workday\DispositioningApprovalStatusCheck_Workday.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="623,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Workday\DispositioningApprovalStatusCheck_Workday.xaml">
       <ui:InvokeWorkflowFile.Arguments>
         <InArgument x:TypeArguments="x:String" x:Key="in_strURL">[in_Config("WorkdayURL").ToString]</InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_strEmployeeName">[in_TransactionItem.SpecificContent("Employee Name").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_strEmployeeName">[in_TransactionItem.SpecificContent("Employee Workday Name").ToString.Trim]</InArgument>
         <OutArgument x:TypeArguments="x:String" x:Key="out_strEmployeeID">[strEmployeeID]</OutArgument>
         <OutArgument x:TypeArguments="x:Boolean" x:Key="out_boolOTPFound">[boolOTPFound]</OutArgument>
         <OutArgument x:TypeArguments="x:String" x:Key="out_strManagerName">[strHiringManagerName]</OutArgument>
@@ -189,16 +190,16 @@
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:LogMessage DisplayName="Log Message - Blank Emp ID" sap:VirtualizedContainerService.HintSize="434,141" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="[UiPath.Core.Activities.LogLevel.Error]" Message="[in_Config(&quot;Business Exception_3&quot;).ToString.Replace(&quot;Employee Name&quot;,in_TransactionItem.SpecificContent(&quot;Employee Name&quot;).ToString)]" />
+                <ui:LogMessage DisplayName="Log Message - Blank Emp ID" sap:VirtualizedContainerService.HintSize="434,141" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="[UiPath.Core.Activities.LogLevel.Error]" Message="[in_Config(&quot;Business Exception_3&quot;).ToString.Replace(&quot;Employee Name&quot;,in_TransactionItem.SpecificContent(&quot;Employee Workday Name&quot;).ToString)]" />
                 <Assign DisplayName="Assign Status value to no Emp ID" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_3">
                   <Assign.To>
                     <OutArgument x:TypeArguments="x:String">[out_strStatus]</OutArgument>
                   </Assign.To>
                   <Assign.Value>
-                    <InArgument x:TypeArguments="x:String">[in_Config("Business Exception_3").ToString.Replace("Employee Name",in_TransactionItem.SpecificContent("Employee Name").ToString)]</InArgument>
+                    <InArgument x:TypeArguments="x:String">[in_Config("Business Exception_3").ToString.Replace("Employee Name",in_TransactionItem.SpecificContent("Employee Workday Name").ToString)]</InArgument>
                   </Assign.Value>
                 </Assign>
-                <Throw DisplayName="Throw BE 3" Exception="[new BusinessRuleException(in_Config(&quot;Business Exception_3&quot;).ToString.Replace(&quot;Employee Name&quot;,in_TransactionItem.SpecificContent(&quot;Employee Name&quot;).ToString))]" sap:VirtualizedContainerService.HintSize="434,90" sap2010:WorkflowViewState.IdRef="Throw_1" />
+                <Throw DisplayName="Throw BE 3" Exception="[new BusinessRuleException(in_Config(&quot;Business Exception_3&quot;).ToString.Replace(&quot;Employee Name&quot;,in_TransactionItem.SpecificContent(&quot;Employee Workday Name&quot;).ToString))]" sap:VirtualizedContainerService.HintSize="434,90" sap2010:WorkflowViewState.IdRef="Throw_1" />
               </Sequence>
             </ui:IfElseIfBlock.Then>
           </ui:IfElseIfBlock>
@@ -256,10 +257,10 @@
                           <OutArgument x:TypeArguments="x:String">[out_strStatus]</OutArgument>
                         </Assign.To>
                         <Assign.Value>
-                          <InArgument x:TypeArguments="x:String">[in_Config("Business Exception_2").ToString.Replace("Employee Name",in_TransactionItem.SpecificContent("Employee Name").ToString)]</InArgument>
+                          <InArgument x:TypeArguments="x:String">[in_Config("Business Exception_2").ToString.Replace("Employee Name",in_TransactionItem.SpecificContent("Employee Workday Name").ToString)]</InArgument>
                         </Assign.Value>
                       </Assign>
-                      <Throw DisplayName="Throw BE 2" Exception="[new BusinessRuleException(in_Config(&quot;Business Exception_2&quot;).ToString.Replace(&quot;Employee Name&quot;,in_TransactionItem.SpecificContent(&quot;Employee Name&quot;).ToString))]" sap:VirtualizedContainerService.HintSize="434,90" sap2010:WorkflowViewState.IdRef="Throw_2" />
+                      <Throw DisplayName="Throw BE 2" Exception="[new BusinessRuleException(in_Config(&quot;Business Exception_2&quot;).ToString.Replace(&quot;Employee Name&quot;,in_TransactionItem.SpecificContent(&quot;Employee Workday Name&quot;).ToString))]" sap:VirtualizedContainerService.HintSize="434,90" sap2010:WorkflowViewState.IdRef="Throw_2" />
                     </Sequence>
                   </If.Else>
                 </If>
@@ -278,7 +279,7 @@
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
                 <ui:LogMessage DisplayName="Log Message - Update Emp ID in sharepoint" sap:VirtualizedContainerService.HintSize="434,141" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="[UiPath.Core.Activities.LogLevel.Trace]" Message="[&quot;Updating employee ID in sharepoint list&quot;]" />
-                <l:Update_List_Item sap2010:Annotation.AnnotationText="Update employee ID for the respective candidate AND JR number in the sharepoint list" DisplayName="Update List Item - Employee ID" sap:VirtualizedContainerService.HintSize="434,540" sap2010:WorkflowViewState.IdRef="Update_List_Item_2" in_ColumnDisplayName="[in_Config(&quot;EmpID_ColumnDisplayName&quot;).ToString]" in_FilterCondition="[&quot;(fields/EmployeeName eq '&quot;+in_TransactionItem.SpecificContent(&quot;Employee Name&quot;).ToString+&quot;') and (fields/JRNumber eq '&quot;+in_TransactionItem.SpecificContent(&quot;JR Number&quot;).ToString+&quot;')&quot;]" in_ValueToBeUpdated="[strEmployeeID]" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAssetName="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strOrchestratorFolderPath="[in_Config(&quot;OrchestratorFolder&quot;).ToString]" in_strSharepointListName="[in_Config(&quot;NHC_SharepointListName&quot;).ToString]" in_strSharepointURL="[in_Config(&quot;NHC_SharepointURL&quot;).ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]">
+                <l:Update_List_Item sap2010:Annotation.AnnotationText="Update employee ID for the respective candidate AND JR number in the sharepoint list" DisplayName="Update List Item - Employee ID" sap:VirtualizedContainerService.HintSize="434,540" sap2010:WorkflowViewState.IdRef="Update_List_Item_2" in_ColumnDisplayName="[in_Config(&quot;EmpID_ColumnDisplayName&quot;).ToString]" in_FilterCondition="[&quot;(fields/EmployeeName eq '&quot;+in_TransactionItem.SpecificContent(&quot;Sharepoint Employee Name&quot;).ToString+&quot;') and (fields/JRNumber eq '&quot;+in_TransactionItem.SpecificContent(&quot;JR Number&quot;).ToString+&quot;')&quot;]" in_ValueToBeUpdated="[strEmployeeID]" in_strApplicationIDAssetName="[in_Config(&quot;O365AppID&quot;).ToString]" in_strApplicationSecretAssetName="[in_Config(&quot;O365ApplicationSecret&quot;).ToString]" in_strOrchestratorFolderPath="[in_Config(&quot;OrchestratorFolder&quot;).ToString]" in_strSharepointListName="[in_Config(&quot;NHC_SharepointListName&quot;).ToString]" in_strSharepointURL="[in_Config(&quot;NHC_SharepointURL&quot;).ToString]" in_strTenantIDAssetName="[in_Config(&quot;O365TenantID&quot;).ToString]">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>

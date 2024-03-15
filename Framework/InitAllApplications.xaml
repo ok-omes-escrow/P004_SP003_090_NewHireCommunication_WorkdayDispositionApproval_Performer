@@ -5,7 +5,7 @@
   <VisualBasic.Settings>
     <x:Null />
   </VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1514,1926</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1498,2079</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Initialization_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -51,6 +51,7 @@
       <x:String>UiPath.UIAutomationNext.Contracts</x:String>
       <x:String>UiPath.UIAutomationNext.Models.CV</x:String>
       <x:String>UiPath.Platform.ResourceHandling</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -116,9 +117,11 @@
       <AssemblyReference>System.IO.Packaging</AssemblyReference>
       <AssemblyReference>System.IO.FileSystem.AccessControl</AssemblyReference>
       <AssemblyReference>System.IO.FileSystem.DriveInfo</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Forms</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Core</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Open applications used in the process and do necessary initialization procedures (e.g., login)." DisplayName="Initialize All Applications" sap:VirtualizedContainerService.HintSize="600,1861" sap2010:WorkflowViewState.IdRef="Sequence_9">
+  <Sequence sap2010:Annotation.AnnotationText="Open applications used in the process and do necessary initialization procedures (e.g., login)." DisplayName="Initialize All Applications" sap:VirtualizedContainerService.HintSize="600,2014" sap2010:WorkflowViewState.IdRef="Sequence_9">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:Int32" Name="intCounter" />
       <Variable x:TypeArguments="x:Boolean" Name="boolLogInSuccess" />
@@ -148,10 +151,10 @@
         <InArgument x:TypeArguments="x:Boolean">False</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:RetryScope DisplayName="Retry Scope - Workday LogIn" sap:VirtualizedContainerService.HintSize="538,993" sap2010:WorkflowViewState.IdRef="RetryScope_1" NumberOfRetries="[cint(in_Config(&quot;RetryScopeAttempts&quot;).ToString)]">
+    <ui:RetryScope DisplayName="Retry Scope - Workday LogIn" sap:VirtualizedContainerService.HintSize="538,1146" sap2010:WorkflowViewState.IdRef="RetryScope_1" NumberOfRetries="[cint(in_Config(&quot;RetryScopeAttempts&quot;).ToString)]">
       <ui:RetryScope.ActivityBody>
         <ActivityAction>
-          <Sequence sap2010:Annotation.AnnotationText="Log in to Workday Application (SSO)" DisplayName="Log In" sap:VirtualizedContainerService.HintSize="496,818" sap2010:WorkflowViewState.IdRef="Sequence_10">
+          <Sequence sap2010:Annotation.AnnotationText="Log in to Workday Application (SSO)" DisplayName="Log In" sap:VirtualizedContainerService.HintSize="496,971" sap2010:WorkflowViewState.IdRef="Sequence_10">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -194,7 +197,7 @@
                 <Sequence sap2010:WorkflowViewState.IdRef="Sequence_12" />
               </If.Else>
             </If>
-            <l:LoggingToWorkday_WorkdayLogIn DisplayName="Log In to Workday" sap:VirtualizedContainerService.HintSize="434,192" sap2010:WorkflowViewState.IdRef="LoggingToWorkday_WorkdayLogIn_1" in_strSELoginFailure="[in_Config(&quot;SE_1&quot;).ToString]" in_strURL="[in_Config(&quot;WorkdayURL&quot;).ToString]" out_boolLoginSuccess="[boolLogInSuccess]" />
+            <l:LoggingToWorkday_WorkdayLogIn DisplayName="Log In Workday" sap:VirtualizedContainerService.HintSize="434,345" sap2010:WorkflowViewState.IdRef="LoggingToWorkday_WorkdayLogIn_1" in_intDelayTimeSmall="[Cint(in_Config(&quot;DelayTimeSmall&quot;).ToString)]" in_strAssetFolderPath="[in_Config(&quot;ProcessAssetFolderPath&quot;).ToString]" in_strBOTCredsAssetName="[in_Config(&quot;BOTCredentialAssetName&quot;).ToString]" in_strSELoginFailure="[in_Config(&quot;SE_1&quot;).ToString]" in_strURL="[in_Config(&quot;WorkdayURL&quot;).ToString]" out_boolLoginSuccess="[boolLogInSuccess]" />
           </Sequence>
         </ActivityAction>
       </ui:RetryScope.ActivityBody>
